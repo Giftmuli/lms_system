@@ -26,11 +26,18 @@ if(isset($_POST['login_btn'])) {
 
         // Redirect based on role
         if($_SESSION['auth_role'] == 'admin') {
-            header("Location: admin_dashboard.php");
+            $_SESSION['message'] ="Welcome to the Admin Dashboard";
+            header("Location: admin dashboard.php");
+            exit(0);
+        } elseif ($_SESSION['auth_role'] == 'tutor') {
+            $_SESSION['message'] = "Welcome to the Tutor Portal";
+            header("Location: tutor dashboard.php");
+            exit(0);
         } else {
-            header("Location: index.php");
+            $_SESSION['message'] = "Logged in successfully";
+            header("Location: student dashboard.php");
+            exit(0);
         }
-        exit(0);
     } else {
         $_SESSION['message'] = "Invalid Email or Password";
         header("Location: login.php");
@@ -76,6 +83,4 @@ if(isset($_POST['login_btn'])) {
     </div>
 </div>
 
-<?php 
-include('footer.php'); 
-?>
+<
