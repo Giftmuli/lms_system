@@ -1,4 +1,5 @@
 <?php
+include('dbcon.php');
 include('header.php');
 
 if (!isset($_SESSION['auth']) || $_SESSION['auth_role'] != 'admin') {
@@ -19,17 +20,34 @@ if (!isset($_SESSION['auth']) || $_SESSION['auth_role'] != 'admin') {
                 <div class="col-md-4">
                     <div class="p-3 border bg-light">
                         <h6>Total Users</h6>
-                        <h3>--</h3>
+                        <h3>
+                            <?php
+                            $user_query = "SELECT id FROM users";
+                            $user_query_run = mysqli_query($con, $user_query);
+                            echo mysqli_num_rows($user_query_run);
+                            ?>
+                        </h3>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="p-3 border bg-light">
                         <h6>Total Courses</h6>
-                        <h3>--</h3>
+                        <h3>
+                            <?php
+                            $course_query = "SELECT id FROM courses";
+                            $course_query_run = mysqli_query($con, $course_query);
+                            if($course_query_run) {
+                                echo mysqli_num_rows($course_query_run);
+                            } else {
+                                echo "0";
+                            }
+                            ?>
+                        </h3>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <a href="register.php" class="btn btn-primary mt-3">Add New User</a>
+                    <a href="addcourse.php" class="btn btn-success w-100 mb-2">Add New Course</a>
+                    <a href="register.php" class="btn btn-primary w-100">Add New User</a>
                 </div>
             </div>
         </div>
