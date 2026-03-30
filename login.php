@@ -1,9 +1,14 @@
 <?php 
-include('header.php'); 
-?>
 
-<?php
+include('header.php'); 
 include('dbcon.php');
+
+// Redirect logged-in users away from the login page
+if(isset($_SESSION['auth'])) {
+    $_SESSION['message'] = "You are already logged in";
+    header("Location: studentdashboard.php");
+    exit(0);
+}
 
 if(isset($_POST['login_btn'])) {
     $email = mysqli_real_escape_string($con, $_POST['email']);
@@ -17,25 +22,25 @@ if(isset($_POST['login_btn'])) {
 
         // Store user data in Session variables
         $_SESSION['auth'] = true;
-        $_SESSION['auth_role'] = $row['role']; // 'student', 'tutor', or 'admin'
+        $_SESSION['auth_role'] = $row['role']; 
         $_SESSION['auth_user'] = [
             'user_id' => $row['id'],
             'user_name' => $row['name'],
             'user_email' => $row['email'],
         ];
 
-        // Redirect based on role
+        // Redirect based on role (Fixed filenames to match your style)
         if($_SESSION['auth_role'] == 'admin') {
             $_SESSION['message'] ="Welcome to the Admin Dashboard";
-            header("Location: admin dashboard.php");
+            header("Location: admindashboard.php");
             exit(0);
         } elseif ($_SESSION['auth_role'] == 'tutor') {
             $_SESSION['message'] = "Welcome to the Tutor Portal";
-            header("Location: tutor dashboard.php");
+            header("Location: tutordashboard.php");
             exit(0);
         } else {
             $_SESSION['message'] = "Logged in successfully";
-            header("Location: student dashboard.php");
+            header("Location: studentdashboard.php");
             exit(0);
         }
     } else {
@@ -49,9 +54,18 @@ if(isset($_POST['login_btn'])) {
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
+
+            <!-- Message Alert for Presentation -->
+            <?php if(isset($_SESSION['message'])) : ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <?= $_SESSION['message']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php unset($_SESSION['message']); endif; ?>
+
             <div class="card shadow-sm border-0">
                 <div class="card-body p-5">
-                    <h2 class="text-center mb-4 fw-bold">Login</h2>
+                    <h2 class="text-center mb-4 fw-bold text-primary">Login</h2>
                     <p class="text-center text-muted mb-4">Access the SPU Learning Management System</p>
                     
                     <form action="login.php" method="POST">
@@ -83,4 +97,4 @@ if(isset($_POST['login_btn'])) {
     </div>
 </div>
 
-<
+<?php include('footer.php'); ?>

@@ -20,11 +20,56 @@ if(isset($_GET['id'])) {
                     <h5>Course Description</h5>
                     <p class="lead"><?= $course['description']; ?></p>
                     <hr>
+                    
                     <h5>Study Materials</h5>
-                    <div class="alert alert-info">
-                        <i class="fa fa-info-circle"></i> No materials uploaded for this unit yet.
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover mt-3">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Topic / Title</th>
+                                    <th>File</th>
+                                    <th>Uploaded Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                // Fetch files linked to this specific course
+                                $materials_query = "SELECT * FROM materials WHERE course_id = '$course_id' ORDER BY uploaded_at DESC";
+                                $materials_run = mysqli_query($con, $materials_query);
+
+                                if(mysqli_num_rows($materials_run) > 0) {
+                                    foreach($materials_run as $file) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $file['title']; ?></td>
+                                            <td>
+                                                <a href="uploads/<?= $file['file_name']; ?>" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    View / Download
+                                                </a>
+                                            </td>
+                                            <td><?= date('d M Y', strtotime($file['uploaded_at'])); ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            <div class="alert alert-info mb-0">
+                                                No materials uploaded for this unit yet.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
-                    <a href="student_dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+
+                    <div class="mt-4">
+                        <a href="studentdashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
                 </div>
             </div>
         </div>

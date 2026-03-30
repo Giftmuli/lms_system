@@ -42,9 +42,22 @@ if(!isset($_SESSION['auth'])) {
                                             <td><?= $row['course_code']; ?></td>
                                             <td><?= $row['course_name']; ?></td>
                                             <td>
-                                                <a href="viewcourse.php?id=<?= $row['id']; ?>" class="btn btn-primary btn-sm">
-                                                    View Materials
-                                                </a>
+                                               <?php
+                                               $sid = $_SESSION['auth_user']['user_id'];
+                                               $cid = $row['id'];
+                                               
+                                               $check = "SELECT * FROM enrollments WHERE student_id='$sid' AND course_id='$cid'";
+                                                  $check_run = mysqli_query($con, $check);
+
+                                                  if(mysqli_num_rows($check_run) > 0) {
+                                                    echo '<a href="viewcourse.php?id='.$cid.'" class="btn btn-success btn-sm">View Materials</a>';
+                                                    } else {
+                                                        echo '<form action="enrollcode.php" method="POST">
+                                                        <input type="hidden" name="course_id" value="'.$cid.'">
+                                                        <button type="submit" name="enroll_btn" class="btn btn-primary btn-sm">Enroll Now</button>
+                                                        </form>';
+                                                    }
+                                                   ?> 
                                             </td>
                                         </tr>
                                         <?php
