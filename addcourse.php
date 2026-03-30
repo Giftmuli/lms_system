@@ -13,8 +13,11 @@ if(isset($_POST['add_course_btn'])) {
     $course_name = mysqli_real_escape_string($con, $_POST['course_name']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
 
-    $query = "INSERT INTO courses (course_code, course_name, description)
-              VALUES ('$course_code', '$course_name', '$description')";
+    $tutor_id = $_SESSION['auth_user']['user_id'];
+
+    $query = "INSERT INTO courses (course_code, course_name, description, tutor_id)
+              VALUES ('$course_code', '$course_name', '$description', '$tutor_id')";
+
     $query_run = mysqli_query($con, $query);
 
     if($query_run) {
@@ -22,7 +25,7 @@ if(isset($_POST['add_course_btn'])) {
         header("Location: admin dashboard.php");
         exit(0);
     } else {
-        $_SESSION['message'] = "Error: " .mysqli_error($con);
+        $_SESSION['message'] = "Something went wrong!";
         header("Location: addcourse.php");
         exit(0);
     }
@@ -37,7 +40,7 @@ if(isset($_POST['add_course_btn'])) {
                     <h4>Add New Courses</h4>
                 </div>
                 <div class="card-body">
-                    <form action="code.php" method="POST">
+                    <form action="addcourse.php" method="POST">
                         <div class="mb-3">
                             <label>Course Code</label>
                             <input type="text" name="course_code" placeholder="e.g. DICS 1303" class="form-control" required>
