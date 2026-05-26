@@ -22,7 +22,7 @@ if(isset($_POST['add_course_btn'])) {
 
     if($query_run) {
         $_SESSION['message'] = "Course Added Successfully";
-        header("Location: admin dashboard.php");
+        header("Location: admindashboard.php");
         exit(0);
     } else {
         $_SESSION['message'] = "Something went wrong!";
@@ -55,7 +55,7 @@ if(isset($_POST['add_course_btn'])) {
                         </div>
                         <div class="mb-3">
                             <button type="sumit" name="add_course_btn" class="btn btn-primary">Save Course</button>
-                            <a href="admin dashboard.php" class="btn btn-danger">Back to Dashboard</a>
+                            <a href="admindashboard.php" class="btn btn-danger">Back to Dashboard</a>
                         </div>
                     </form>
                 </div>

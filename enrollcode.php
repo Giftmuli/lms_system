@@ -12,7 +12,7 @@ if(isset($_POST['enroll_btn'])) {
 
     if(mysqli_num_rows($check_run) > 0) {
         $_SESSION['message'] = "You are already enrolled in this course!";
-        header("Location: student_dashboard.php");
+        header("Location: studentdashboard.php");
         exit(0);
     }
 
@@ -21,11 +21,11 @@ if(isset($_POST['enroll_btn'])) {
 
     if($query_run) {
         $_SESSION['message'] = "Enrolled successfully!";
-        header("Location: student_dashboard.php");
+        header("Location: studentdashboard.php");
         exit(0);
     } else {
         $_SESSION['message'] = "Enrollment failed. Please try again.";
-        header("Location: student_dashboard.php");
+        header("Location: studentdashboard.php");
         exit(0);
     }
 }
