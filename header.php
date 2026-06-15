@@ -28,15 +28,25 @@
         <li class="nav-item">
           <a class="nav-link" href="index.php">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login.php">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="register.php">Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-danger fw-bold" href="logout.php">Logout</a>
-        </li>
+        <?php if(isset($_SESSION['auth'])) : ?>
+          <li class="nav-item">
+            <?php
+            $dashboard_url = 'studentdashboard.php';
+            if($_SESSION['auth_role'] == 'admin') {
+                $dashboard_url = 'admindashboard.php';
+            } elseif($_SESSION['auth_role'] == 'tutor') {
+                $dashboard_url = 'tutordashboard.php';
+            }
+            ?>
+            <a class="nav-link" href="<?= $dashboard_url; ?>">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <span class="nav-link text-white-50">Welcome, <?= htmlspecialchars($_SESSION['auth_user']['user_name']); ?></span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger fw-bold" href="logout.php">Logout</a>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>

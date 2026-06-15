@@ -51,10 +51,14 @@ include('header.php');
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <button type="submit" name="register_btn" class="btn btn-primary btn-lg">Sign Up</button>
+                            <a href="index.php" class="btn btn-outline-danger btn-lg">Back to Home</a>
                         </div>
                     </form>
+                </div>
+                <div class="card-footer bg-white border-0 text-center pb-4">
+                    <p class="text-muted">Already have an account? <a href="login.php" class="text-primary text-decoration-none fw-bold">Login here</a></p>
                 </div>
             </div>
         </div>

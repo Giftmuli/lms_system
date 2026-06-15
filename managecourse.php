@@ -57,7 +57,13 @@ if (isset($_GET['id'])) {
                             <p class="lead mb-0 text-white-50"><?= htmlspecialchars($course['description']); ?></p>
                         </div>
                         <div class="mt-3 mt-md-0">
-                            <a href="tutordashboard.php" class="btn btn-outline-light me-2">Back to Dashboard</a>
+                            <?php
+                            $dashboard_url = 'tutordashboard.php';
+                            if (isset($_SESSION['auth_role']) && $_SESSION['auth_role'] == 'admin') {
+                                $dashboard_url = 'admindashboard.php';
+                            }
+                            ?>
+                            <a href="<?= $dashboard_url; ?>" class="btn btn-outline-light me-2">Back to Dashboard</a>
                             <a href="addmaterial.php" class="btn btn-success">Upload Material</a>
                         </div>
                     </div>

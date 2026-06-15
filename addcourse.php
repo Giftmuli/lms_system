@@ -13,10 +13,11 @@ if(isset($_POST['add_course_btn'])) {
     $course_name = mysqli_real_escape_string($con, $_POST['course_name']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
 
-    $tutor_id = $_SESSION['auth_user']['user_id'];
+    $tutor_id = mysqli_real_escape_string($con, $_POST['tutor_id']);
+    $tutor_id_val = !empty($tutor_id) ? "'$tutor_id'" : "NULL";
 
     $query = "INSERT INTO courses (course_code, course_name, description, tutor_id)
-              VALUES ('$course_code', '$course_name', '$description', '$tutor_id')";
+              VALUES ('$course_code', '$course_name', '$description', $tutor_id_val)";
 
     $query_run = mysqli_query($con, $query);
 
@@ -54,7 +55,22 @@ if(isset($_POST['add_course_btn'])) {
                             <textarea name="description" rows="3" class="form-control" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <button type="sumit" name="add_course_btn" class="btn btn-primary">Save Course</button>
+                            <label>Assign Tutor</label>
+                            <select name="tutor_id" class="form-select">
+                                <option value="">No Tutor Assigned</option>
+                                <?php
+                                $tutors_query = "SELECT * FROM users WHERE role='tutor'";
+                                $tutors_query_run = mysqli_query($con, $tutors_query);
+                                if(mysqli_num_rows($tutors_query_run) > 0) {
+                                    foreach($tutors_query_run as $tutor) {
+                                        echo '<option value="'.$tutor['id'].'">'.htmlspecialchars($tutor['name']).' ('.htmlspecialchars($tutor['email']).')</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" name="add_course_btn" class="btn btn-primary">Save Course</button>
                             <a href="admindashboard.php" class="btn btn-danger">Back to Dashboard</a>
                         </div>
                     </form>

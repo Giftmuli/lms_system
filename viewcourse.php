@@ -161,7 +161,19 @@ if(isset($_GET['id'])) {
                     <?php endif; ?>
 
                     <div class="mt-4">
-                        <a href="studentdashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+                        <?php
+                        $dashboard_url = 'studentdashboard.php';
+                        if (isset($_SESSION['auth_role'])) {
+                            if ($_SESSION['auth_role'] == 'admin') {
+                                $dashboard_url = 'admindashboard.php';
+                            } elseif ($_SESSION['auth_role'] == 'tutor') {
+                                $dashboard_url = 'tutordashboard.php';
+                            }
+                        } else {
+                            $dashboard_url = 'index.php';
+                        }
+                        ?>
+                        <a href="<?= $dashboard_url; ?>" class="btn btn-secondary">Back to Dashboard</a>
                     </div>
                 </div>
             </div>

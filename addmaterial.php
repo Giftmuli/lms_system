@@ -36,7 +36,16 @@ if(!isset($_SESSION['auth']) || $_SESSION['auth_role'] != 'tutor' && $_SESSION['
                     <label>Select File (PDF, DOCX, PPTX)</label>
                     <input type="file" name="course_file" required class="form-control">
                 </div>
-                <button type="submit" name="upload_btn" class="btn btn-success">Upload Now</button>
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" name="upload_btn" class="btn btn-success px-4">Upload Now</button>
+                    <?php
+                    $dashboard_url = 'tutordashboard.php';
+                    if (isset($_SESSION['auth_role']) && $_SESSION['auth_role'] == 'admin') {
+                        $dashboard_url = 'admindashboard.php';
+                    }
+                    ?>
+                    <a href="<?= $dashboard_url; ?>" class="btn btn-danger px-4">Back to Dashboard</a>
+                </div>
             </form>
         </div>
     </div>
